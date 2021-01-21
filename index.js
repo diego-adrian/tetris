@@ -248,8 +248,8 @@ const init = () => {
   CANVAS.height = CANVAS_HEIGHT;
 
   CANVAS.style.border = '2px solid #000';
+  const PIECE = new Piece();
   addListeners();
-  const piece = new Piece();
   setInterval(() => {
     main();
   }, 1000 / FPS);
@@ -259,18 +259,18 @@ const addListeners = () => {
   document.addEventListener('keydown', (event) => {
     const { key } = event;
     if (key === 'ArrowUp') {
-      console.log('arriba');
+      PIECE.rotate();
     } else if (key === 'ArrowDown') {
-      console.log('abajo');
+      PIECE.down();
     } else if (key === 'ArrowLeft') {
-      console.log('izquierda');
+      PIECE.left();
     } else if (key === 'ArrowRight') {
-      console.log('derecha');
+      PIECE.right();
     }
   });
 };
 
-Piece = function () {
+const objPiece = function () {
   this.x = 0;
   this.y = 0;
 
