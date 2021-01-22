@@ -4,6 +4,9 @@ let CONTEXT;
 const CANVAS_WIDTH = 400;
 const CANVAS_HEIGHT = 640;
 
+const PIECE_WIDTH = 40;
+const PIECE_HEIGHT = 40;
+
 const FPS = 50;
 
 let Piece;
@@ -240,6 +243,16 @@ const PIECES = [
   ]
 ];
 
+const COLORS = [
+  '#581845', // Morado
+  '#900C3F', // Guindo
+  '#C70039', // Rosado
+  '#FF5733', // Naranja
+  '#FFC300', // Amarillo
+  '#33B5FF', // Turqueza
+  '#03400B', // Verde
+];
+
 const init = () => {
   CANVAS = document.querySelector('#canvas');
   CONTEXT = CANVAS.getContext('2d');
@@ -248,7 +261,7 @@ const init = () => {
   CANVAS.height = CANVAS_HEIGHT;
 
   CANVAS.style.border = '2px solid #000';
-  const PIECE = new Piece();
+  PIECE = new objPiece();
   addListeners();
   setInterval(() => {
     main();
@@ -271,10 +284,28 @@ const addListeners = () => {
 };
 
 const objPiece = function () {
-  this.x = 0;
-  this.y = 0;
+  this.x = 5;
+  this.y = 7;
 
-  this.rotate = function () {};
+  this.angle = 1; // 0, 1, 2 ,3 
+  this.pieceType = 6; // 2 elemento de nuestro 
+
+  this.draw = function () {
+    for(rows = 0; rows < 4; rows++) {
+      for (cols = 0; cols < 4; cols++) {
+        if (PIECES[this.pieceType][this.angle][rows][cols] !== 0) {
+          CONTEXT.fillStyle = COLORS[this.pieceType];
+          const x0 = (this.x + rows) * PIECE_WIDTH; // la posicion + la fila  * ancho de la pieza para la proporcionalidad
+          const y0 = (this.y + cols) * PIECE_HEIGHT;
+          CONTEXT.fillRect(x0, y0, PIECE_WIDTH, PIECE_HEIGHT);
+        }
+      }
+    } 
+  }
+
+  this.rotate = function () {
+    console.log('rotando');
+  };
 
   this.left = function () {};
 
@@ -289,6 +320,7 @@ const clearCanvas = () => {
 
 const main = () => {
   clearCanvas();
+  PIECE.draw();
 };
 
 document.addEventListener('load', init());
